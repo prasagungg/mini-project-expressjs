@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.min.js"
+      integrity="sha256-8IAwtdm0tRSYpMA1G5K1jpeHZq1N02yrdpoBteVVuMc="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <h1>Data selfie app</h1>
+    <p>
+      Latitude : <span id="latitude"></span>&deg;<br />
+      Longitude : <span id="longitude"></span>&deg;
+    </p>
+    <p>
+      <a href="/">Enter</a>
+      <a href="/all.html">List</a>
+    </p>
+    <input id="vegetable" value="arugula" />
+    <button id="submit">Submit</button>
+    <script>
+      function setup() {
+        noCanvas();
+        const video = createCapture(VIDEO);
+        video.size(320, 240);
+        let lon, lat;
+        const btnSubmit = document.getElementById("submit");
+        btnSubmit.addEventListener("click", async function() {
+          //fetch api
+          const vegetable = document.getElementById("vegetable").value;
+          video.loadPixels();
+          const image64 = video.canvas.toDataURL();
+          const data = { lat, lon, vegetable, image64 };
+          const options = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+          };
+          const response = await fetch("/api", options);
+          const json = await response.json();
+          console.log(json);
+        });
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(async position => {
+            console.log("geolocation available");
+            lon = position.coords.longitude;
+            lat = position.coords.latitude;
+            document.getElementById("longitude").textContent = lon;
+            document.getElementById("latitude").textContent = lat;
+          });
+        } else {
+          console.log("geolocation  not available");
+        }
+      }
+    </script>
+  </body>
+</html>

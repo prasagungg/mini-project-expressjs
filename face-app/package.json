@@ -1,0 +1,22 @@
+{
+  "name": "face-app",
+  "version": "1.0.0",
+  "description": "balbal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "data, example, data"
+  },
+  "keywords": [
+    "agungp"
+  ],
+  "author": "MIT",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nedb": "^1.8.0"
+  }
+}
